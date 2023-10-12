@@ -1,19 +1,20 @@
-import {useRedirectFunctions, withRequiredAuthInfo} from "@propelauth/react";
-import {Link} from "react-router-dom";
+import { useRedirectFunctions, withRequiredAuthInfo } from "@propelauth/react";
+import { Link } from "react-router-dom";
+import React from 'react';
 
 function NoOrganizations() {
-    const {redirectToCreateOrgPage} = useRedirectFunctions()
+    const { redirectToCreateOrgPage } = useRedirectFunctions()
 
     return <div>
-        You aren't a member of any organizations.<br/>
-        You can either create one below, or ask for an invitation.<br/>
+        You aren't a member of any organizations.<br />
+        You can either create one below, or ask for an invitation.<br />
         <button onClick={redirectToCreateOrgPage}>
             Create an organization
         </button>
     </div>
 }
 
-function ListOrganizations({orgs}) {
+function ListOrganizations({ orgs }) {
     return <>
         <h3>Your organizations</h3>
         <ul>
@@ -33,7 +34,7 @@ function ListOfOrgs(props) {
     if (orgs.length === 0) {
         return <NoOrganizations />
     } else {
-        return <ListOrganizations orgs={orgs}/>
+        return <ListOrganizations orgs={orgs} />
     }
 }
 

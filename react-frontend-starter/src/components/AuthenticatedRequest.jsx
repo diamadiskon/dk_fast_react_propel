@@ -1,5 +1,6 @@
 import { withRequiredAuthInfo } from "@propelauth/react";
 import { useEffect, useState } from "react";
+import React from 'react';
 
 function fetchWhoAmI(accessToken) {
     return fetch("/whoami", {

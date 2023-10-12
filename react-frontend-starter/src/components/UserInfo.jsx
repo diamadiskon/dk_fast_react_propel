@@ -1,7 +1,8 @@
-import {withAuthInfo} from '@propelauth/react';
+import { withAuthInfo } from '@propelauth/react';
+import React from 'react';
 
 // user is automatically injected from withAuthInfo
-function UserInfo({user}) {
+function UserInfo({ user }) {
 
     return <span>
         <h2>User Info</h2>

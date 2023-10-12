@@ -36,14 +36,15 @@ def who_am_i(user: User = Depends(auth.require_user)):
 
 # Health Metrics Endpoint
 @app.get("/health-dashboard/")
-async def read_health_metrics(user: User = Depends(auth.require_user)):
+async def read_health_metrics():
     # Mock data for heart rate and blood pressure
-    heart_rate = random.randint(60, 100)
-    blood_pressure = f"{random.randint(90, 120)}/{random.randint(60, 80)}"
+    num_data_points = 10  # Change this to the number of data points you want to return
+    heart_rate_data = [{"time": f"timestamp{i}", "value": random.randint(60, 100)} for i in range(num_data_points)]
+    blood_pressure_data = [{"time": f"timestamp{i}", "value": f"{random.randint(90, 120)}/{random.randint(60, 80)}"} for i in range(num_data_points)]
     
     return {
-        "heart_rate": heart_rate,
-        "blood_pressure": blood_pressure
+        "heart_rate": heart_rate_data,
+        "blood_pressure": blood_pressure_data
     }
 
 
