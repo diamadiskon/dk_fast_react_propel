@@ -4,9 +4,10 @@ services:
         build:
             context: ./react-frontend-starter/
         image: fullstack-react-fastapi-propel-frontend
-        # volumes:
-        #   - ./react-frontend-starter:/usr/src/app # Mounts the local frontend folder into the container
-
+        volumes:
+          
+          - ./react-frontend-starter/src:/usr/src/app # Mounts the local frontend folder into the container
+          
         env_file:
           - ./react-frontend-starter/.env
         ports:

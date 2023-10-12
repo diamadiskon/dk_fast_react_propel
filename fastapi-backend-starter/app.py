@@ -50,5 +50,5 @@ async def read_health_metrics():
 
 @app.get("/org/{org_id}")
 async def view_org(org_id: str, current_user: User = Depends(auth.require_user)):
-    org = auth.require_org_member(current_user, org_id)
+    org = auth.require_org_member(currentser, org_id)
     return {"org": org}
