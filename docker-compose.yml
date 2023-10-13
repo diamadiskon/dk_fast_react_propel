@@ -6,7 +6,11 @@ services:
         image: fullstack-react-fastapi-propel-frontend
         volumes:
           
-          - ./react-frontend-starter/src:/usr/src/app # Mounts the local frontend folder into the container
+          - ./react-frontend-starter/src:/usr/src/app/src # Mounts the local frontend folder into the container
+      
+        environment:
+          - CHOKIDAR_USEPOLLING=true
+        
           
         env_file:
           - ./react-frontend-starter/.env

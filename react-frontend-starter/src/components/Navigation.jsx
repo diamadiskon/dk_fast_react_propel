@@ -6,7 +6,7 @@ function Navigation() {
         <nav style={{ backgroundColor: "#333", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px" }}>
             <div style={{ display: "flex", alignItems: "center" }}>
                 <img src="https://via.placeholder.com/50x50" alt="logo" style={{ marginRight: "10px" }} />
-                <h1 style={{ color: "#fff", fontSize: "24px", margin: 0 }}>My Website</h1>
+                <h1 style={{ color: "#fff", fontSize: "24px", margin: 0 }}>My Health</h1>
             </div>
             <ul style={{ listStyle: "none", display: "flex", alignItems: "center", margin: 0 }}>
                 <li style={{ marginRight: "20px" }}><a href="/" style={{ color: "#fff", textDecoration: "none" }}>Home</a></li>
