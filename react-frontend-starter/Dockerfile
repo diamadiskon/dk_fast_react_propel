@@ -1,11 +1,12 @@
 FROM node:16.4.0-buster
 # RUN mkdir -p /home/node/src
-WORKDIR /app
-COPY ./package.json ./
+WORKDIR /src
+
+ADD package.json /src
 
 RUN npm install
 
-COPY . ./
+ADD . /src
 
 EXPOSE 3000
 
