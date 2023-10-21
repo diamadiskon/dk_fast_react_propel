@@ -73,4 +73,4 @@ The project aims to:
 1. Clone the repository:
 
    ```sh
-   [git clone https://github.com/diamadiskon/dk_fast_react_propel.git]
+   git clone https://github.com/diamadiskon/dk_fast_react_propel.git
