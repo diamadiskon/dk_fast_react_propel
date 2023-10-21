@@ -9,6 +9,7 @@ const homeStyle = {
     borderRadius: '10px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
     margin: '20px',
+    color: 'red',
 };
 
 const linkStyle = {
