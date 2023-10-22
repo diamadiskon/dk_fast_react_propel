@@ -8,6 +8,7 @@ import Home from './components/Home';
 import ListOfOrgs from './components/ListOfOrgs';
 import OrgInfo from './components/OrgInfo';
 import UserInfo from './components/UserInfo';
+import Navigation from './components/Navigation';
 
 
 const App = withAuthInfo(({ isLoggedIn }) => {
@@ -16,6 +17,7 @@ const App = withAuthInfo(({ isLoggedIn }) => {
 
     if (isLoggedIn) {
         return <div>
+            <Navigation />
             {/* <p>The User is logged in</p>
             <button onClick={() => logoutFn(true)}>
                 Click here to log out
@@ -40,7 +42,7 @@ const App = withAuthInfo(({ isLoggedIn }) => {
                 Log in
             </button>
         </div>
-    }
+    } 
 })
 
 export default App;

@@ -1,6 +1,5 @@
 import Chart from 'chart.js/auto'; // Import the Chart object from 'chart.js/auto'
 import React, { useEffect, useRef, useState } from 'react';
-import Navigation from './Navigation';
 
 function HealthMetrics() {
     const [heartRateData, setHeartRateData] = useState([]);
@@ -85,7 +84,6 @@ function HealthMetrics() {
 
     return (
         <div>
-            <Navigation />
             <h2>Health Metrics</h2>
             <div>
                 <h3>Heart Rate</h3>
