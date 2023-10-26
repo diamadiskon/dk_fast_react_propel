@@ -1,0 +1,68 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "westeurope"
+    },
+    "location_abbreviation": {
+      "value": "weu"
+    },
+    "workload": {
+      "value": "fast-react"
+    },
+    "environment": {
+      "value": "dev"
+    },
+    "rg_tags": {
+      "value": {}
+    },
+    "jumpbox_admin_username": {
+      "value": "azureuser"
+    },
+    "cosmosdb_admin_username": {
+      "value": "cosmosdbadmin"
+    },
+    "cosmosdb_admin_password_secret_name": {
+      "value": "cosmosdb-admin-password"
+    },
+    "cosmosdb_admin_password": {
+      "value": "ABC123!@#"
+    },
+    "jumpbox_admin_password": {
+      "value": "ABC123!@#"
+    },
+    "jumpbox_admin_password_secret_name": {
+      "value": "jumpbox-admin-password"
+    },
+    "vnet_address_space": {
+      "value": [
+        "10.1.0.0/21"
+      ]
+    },
+    "snet_agw_address_prefix": {
+      "value": "10.1.3.0/24"
+    },
+    "snet_cosmosdb_address_prefix": {
+      "value": "10.1.2.0/24"
+    },
+    "snet_aks_address_prefix": {
+      "value": "10.1.1.0/24"
+    },
+    "snet_shared_address_prefix": {
+      "value": "10.1.0.0/24"
+    },
+    "snet_bastion_address_prefix": {
+      "value": "10.1.4.0/26"
+    },
+    "AzureDevOpsURL": {
+      "value": "https://dev.azure.com/DKonstantinidis/"
+    },
+    "AgentPoolName": {
+      "value": "fast-react-agent-pool"
+    },
+    "azurePAT": {
+      "value": "dbtbr2i7c63obx54qk6k3dlfulbjsjrjcxktdcnb7y6tuobk3bfq"
+    }
+  }
+}
