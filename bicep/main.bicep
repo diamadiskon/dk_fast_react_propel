@@ -240,45 +240,19 @@ module aks 'modules/aks.bicep' = {
 }
 
 // Role assignments for AKS
-module acr_pull_role_assignment 'modules/role_assignment.bicep' = {
-  scope: resourceGroup(rg_name)
-  name: 'contributor-role-assignment-${workload}-deployment'
-  params: {
-    built_in_role_type: 'AcrPull'
-    principal_id: aks.outputs.aksManagedIdentityPrincipalId
-  }
-}
 
-module acr_push_role_assignment 'modules/role_assignment.bicep' = {
-  scope: resourceGroup(rg_name)
-  name: 'contributor-role-assignment-${workload}-deployment'
+module aks_role_assignment 'modules/aks-role-assignment.bicep' = {//asign network contributor to aks identity
+  name: 'aks-role-assignment-deployment'
   params: {
-    built_in_role_type: 'AcrPush'
-    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+    aksName: aks.outputs.aksName
+    acrName: registry.outputs.registry_name
+    aksManagedIdentityPrincipalId: aks.outputs.aksManagedIdentityPrincipalId
   }
+  dependsOn: [
+    aks
+    registry
+  ]
 }
-
-module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
-  scope: resourceGroup(rg_name)
-  name: 'contributor-role-assignment-${workload}-deployment'
-  params: {
-    built_in_role_type: 'NetworkContributor'
-    principal_id: aks.outputs.aksManagedIdentityPrincipalId
-  }
-}
-
-// module aks_role_assignment 'modules/aks-role-assignment.bicep' = {//asign network contributor to aks identity
-//   name: 'aks-role-assignment-deployment'
-//   params: {
-//     aksName: aks.outputs.aksName
-//     acrName: registry.outputs.registry_name
-//     aksManagedIdentityPrincipalId: aks.outputs.aksManagedIdentityPrincipalId
-//   }
-//   dependsOn: [
-//     aks
-//     registry
-//   ]
-// }
 
 // application gateway
 
