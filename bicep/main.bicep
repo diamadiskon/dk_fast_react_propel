@@ -170,14 +170,14 @@ module jumpbox 'modules/jumpbox.bicep' = {
 }
 
 // Role assignment for jumpbox
-module contributor_role_assignment 'modules/role_assignment.bicep' = {
-  scope: resourceGroup(rg_name)
-  name: 'contributor-role-assignment-${workload}-deployment'
-  params: {
-    built_in_role_type: 'Contributor'
-    principal_id: jumpbox.outputs.vm_identity_principal_id
-  }
-}
+// module contributor_role_assignment 'modules/role_assignment.bicep' = {
+//   scope: resourceGroup(rg_name)
+//   name: 'contributor-role-assignment-${workload}-deployment'
+//   params: {
+//     built_in_role_type: 'Contributor'
+//     principal_id: jumpbox.outputs.vm_identity_principal_id
+//   }
+// }
 
 module bastion 'modules/bastion.bicep' = {
   scope: resourceGroup(rg_name)
