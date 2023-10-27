@@ -32,5 +32,6 @@ resource role_assignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = 
   properties: {
     principalId: principal_id
     roleDefinitionId: role[built_in_role_type]
+    principalType: 'ServicePrincipal'
   }
 }
