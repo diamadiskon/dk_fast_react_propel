@@ -143,7 +143,6 @@ module main 'main.bicep' = {
     jumpbox_admin_username: jumpbox_admin_username
     jumpbox_admin_password: jumpbox_admin_password
     jumpbox_admin_password_secret_name: jumpbox_admin_password_secret_name
-    cosmosdb_admin_username: cosmosdb_admin_username
     cosmosdb_admin_password: cosmosdb_admin_password
     cosmosdb_admin_password_secret_name: cosmosdb_admin_password_secret_name
     vnet_address_space: vnet_address_space
