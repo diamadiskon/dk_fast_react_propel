@@ -26,9 +26,6 @@ param jumpbox_admin_username string
 @secure()
 param jumpbox_admin_password string
 
-@description('Username of the mysql admin')
-param cosmosdb_admin_username string
-
 @description('Password of the cosmosdb admin')
 @secure()
 param cosmosdb_admin_password string
@@ -173,6 +170,16 @@ module jumpbox 'modules/jumpbox.bicep' = {
   ]
 }
 
+// Role assignment for jumpbox
+module contributor_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'contributor-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'Contributor'
+    principal_id: jumpbox.outputs.vm_identity_principal_id
+  }
+}
+
 module bastion 'modules/bastion.bicep' = {
   scope: resourceGroup(rg_name)
   name: 'bastion-${workload}-deployment'
@@ -232,6 +239,47 @@ module aks 'modules/aks.bicep' = {
   ]
 }
 
+// Role assignments for AKS
+module acr_pull_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'contributor-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'AcrPull'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+}
+
+module acr_push_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'contributor-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'AcrPush'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+}
+
+module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'contributor-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'NetworkContributor'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+}
+
+// module aks_role_assignment 'modules/aks-role-assignment.bicep' = {//asign network contributor to aks identity
+//   name: 'aks-role-assignment-deployment'
+//   params: {
+//     aksName: aks.outputs.aksName
+//     acrName: registry.outputs.registry_name
+//     aksManagedIdentityPrincipalId: aks.outputs.aksManagedIdentityPrincipalId
+//   }
+//   dependsOn: [
+//     aks
+//     registry
+//   ]
+// }
+
 // application gateway
 
 // module applicationGateway 'modules/agw.bicep' = {
@@ -269,15 +317,6 @@ module la_workspace 'modules/la_workspace.bicep' = {
   params: {
     location: location
     logAnalyticsWorkspace: naming.logAnalyticsWorkspace.name
-  }
-}
-
-module contributor_role_assignment 'modules/role_assignment.bicep' = {
-  scope: resourceGroup(rg_name)
-  name: 'contributor-role-assignment-${workload}-deployment'
-  params: {
-    built_in_role_type: 'Contributor'
-    principal_id: jumpbox.outputs.vm_identity_principal_id
   }
 }
 

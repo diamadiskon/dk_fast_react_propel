@@ -6,7 +6,6 @@ on:
       - master
     paths:
       - "bicep/**"
-      - "ps-rule.yaml"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
