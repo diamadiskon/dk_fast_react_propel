@@ -169,15 +169,15 @@ module jumpbox 'modules/jumpbox.bicep' = {
   ]
 }
 
-// Role assignment for jumpbox
-// module contributor_role_assignment 'modules/role_assignment.bicep' = {
-//   scope: resourceGroup(rg_name)
-//   name: 'contributor-role-assignment-${workload}-deployment'
-//   params: {
-//     built_in_role_type: 'Contributor'
-//     principal_id: jumpbox.outputs.vm_identity_principal_id
-//   }
-// }
+//Role assignment for jumpbox
+module contributor_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'contributor-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'Contributor'
+    principal_id: jumpbox.outputs.vm_identity_principal_id
+  }
+}
 
 module bastion 'modules/bastion.bicep' = {
   scope: resourceGroup(rg_name)
@@ -240,18 +240,18 @@ module aks 'modules/aks.bicep' = {
 
 // Role assignments for AKS
 
-module aks_role_assignment 'modules/aks-role-assignment.bicep' = {//asign network contributor to aks identity
-  name: 'aks-role-assignment-deployment'
-  params: {
-    aksName: aks.outputs.aksName
-    acrName: registry.outputs.registry_name
-    aksManagedIdentityPrincipalId: aks.outputs.aksManagedIdentityPrincipalId
-  }
-  dependsOn: [
-    aks
-    registry
-  ]
-}
+// module aks_role_assignment 'modules/aks-role-assignment.bicep' = {//asign network contributor to aks identity
+//   name: 'aks-role-assignment-deployment'
+//   params: {
+//     aksName: aks.outputs.aksName
+//     acrName: registry.outputs.registry_name
+//     aksManagedIdentityPrincipalId: aks.outputs.aksManagedIdentityPrincipalId
+//   }
+//   dependsOn: [
+//     aks
+//     registry
+//   ]
+// }
 
 // application gateway
 
