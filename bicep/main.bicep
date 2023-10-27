@@ -160,7 +160,6 @@ module jumpbox 'modules/jumpbox.bicep' = {
     scriptName: 'install-agent.sh'
     scriptUrl: 'https://raw.githubusercontent.com/diamadiskon/Scripts/main/install-agent.sh'
     nsgVmId: nsg.outputs.vmNsgId
-    extensionName: 'extension'
     AzureDevOpsPAT: azurePAT
     AzureDevOpsURL: AzureDevOpsURL
     AgentPoolName: AgentPoolName

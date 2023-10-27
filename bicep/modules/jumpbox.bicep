@@ -49,9 +49,6 @@ param scriptName string
 @description('Nsg of vm')
 param nsgVmId string
 
-@description('Name of VM extension')
-param extensionName string
-
 @description('Name of agent pool')
 param AgentPoolName string
 
@@ -150,7 +147,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
 }
 
 resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-  name: '${vm.name}/exte'
+  name: vm.name
   location: location
   properties: {
     publisher: 'Microsoft.Azure.Extensions'
