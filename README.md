@@ -11,6 +11,7 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Azure IaC for Infrastructure Provisioning](#azure-iac-for-infrastructure-provisioning)
 - [Usage](#usage)
 - [Data Storage](#data-storage)
 - [Data Generation](#data-generation)
@@ -24,7 +25,7 @@
 
 ## Introduction
 
-This project is a health monitoring application that allows users to input and visualize their health data. The data is stored in a DynamoDB database and can be accessed securely. The application uses FastAPI for the backend and React for the frontend, providing a user-friendly interface for health data management.
+This project is a health monitoring application that allows users to input and visualize their health data. The data is stored in a CosmosDB database and can be accessed securely. The application uses FastAPI for the backend and React for the frontend, providing a user-friendly interface for health data management.
 
 ![App Screenshot](app_screenshot.png)
 
@@ -62,15 +63,41 @@ The project aims to:
 
 ### Prerequisites
 
-- AWS account for DynamoDB.
+- Azure CosmosDB
 - Azure DevOps account for Azure Pipelines.
 - Docker for containerization.
 - Node.js for React frontend.
 - Python for FastAPI backend.
 
-### Installation
+### Installation locally
 
 1. Clone the repository:
 
    ```sh
    git clone https://github.com/diamadiskon/dk_fast_react_propel.git
+
+2. cd dk_fast_react_propel
+
+3. Open localhost:3000 in your browser.
+
+### Azure IaC for Infrastructure Provisioning
+
+## Azure IaC for Infrastructure Provisioning
+
+```sh
+# Log in to Azure
+az login
+
+# Set the subscription
+az account set --subscription <subscription_id>
+
+# What-If deployment
+az deployment sub what-if --subscription <subscription_id> --template-file bicep/azure.deploy.bicep --location [location] --parameters bicep/azure.deploy.parameters.json
+
+# Validate deployment
+az deployment sub validate --subscription <subscription_id> --template-file bicep/azure.deploy.bicep --location [location] --parameters bicep/azure.deploy.parameters.json
+
+# Create deployment
+az deployment sub create --subscription <subscription_id> --template-file bicep/azure.deploy.bicep --location [location] --parameters bicep/azure.deploy.parameters.json
+
+
