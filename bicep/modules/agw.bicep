@@ -17,17 +17,15 @@ param cdfPublicIpName string
 param agSubnetId string
 
 @description('Availability Zone for redundancy')
-param availability_zones array 
+param availability_zones array
 
 @description('Private ip address for AG frontend configuration')
 param agPrivateIpAddress string
 
-
 // Variables
-var frontEndPublicIpConfigurationName  = 'appGwPublicFrontendIp'
+var frontEndPublicIpConfigurationName = 'appGwPublicFrontendIp'
 var frontEndPrivateIpConfigurationName = 'appGwPrivateFrontendIp'
 var applicationGatewayId = resourceId('Microsoft.Network/applicationGateways', '${agName}')
-
 
 // Resources
 resource cdfPublicIp 'Microsoft.Network/publicIPAddresses@2020-11-01' = {
@@ -75,6 +73,7 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2020-11-01' =
           }
         }
       }
+
       {
         name: frontEndPrivateIpConfigurationName
         properties: {
@@ -174,8 +173,7 @@ resource AppGW_AppFW_Pol 'Microsoft.Network/ApplicationGatewayWebApplicationFire
   name: '${agName}-waf'
   location: location
   properties: {
-    customRules: [
-    ]
+    customRules: []
     policySettings: {
       requestBodyCheck: true
       maxRequestBodySizeInKb: 128
@@ -198,8 +196,7 @@ resource AppGW_AppFW_Pol 'Microsoft.Network/ApplicationGatewayWebApplicationFire
   }
 }
 
-
-output applicationGatewayId       string = applicationGateway.id
-output applicationGatewayName     string = applicationGateway.name
+output applicationGatewayId string = applicationGateway.id
+output applicationGatewayName string = applicationGateway.name
 
 output applicationGatewayPublicIp string = cdfPublicIp.properties.ipAddress
