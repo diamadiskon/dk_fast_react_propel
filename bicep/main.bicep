@@ -295,5 +295,5 @@ module la_workspace 'modules/la_workspace.bicep' = {
 
 /// Variables ///
 
-var kv_name = '${naming.keyVault.nameUnique}'
+var kv_name = '${naming.keyVault.nameUnique}-001'
 var suffix = '${workload}-${environment}-${location_abbreviation}'
