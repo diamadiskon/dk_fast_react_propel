@@ -87,8 +87,7 @@ resource keyvault 'Microsoft.KeyVault/vaults@2022-07-01' = {
       virtualNetworkRules: []
     }
 
-    accessPolicies: [
-    ]
+    accessPolicies: []
 
   }
 }

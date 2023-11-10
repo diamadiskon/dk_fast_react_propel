@@ -35,7 +35,7 @@ jobs:
         with:
           approvers: diamadiskon
           minimum-approvals: 1
-          secret: ${{ github.TOKEN }}
+          secret: ${{ secrets.GITHUB_TOKEN }}
 
   destroy:
     name: Destroy Infrastructure
