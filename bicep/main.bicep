@@ -228,7 +228,7 @@ module aks 'modules/aks.bicep' = {
   params: {
     aksName: 'aks-${suffix}'
     location: location
-    version: '1.29'
+    version: '1.27.0'
     aksSubnetId: vnet.outputs.snet_aks_id
     availability_zones: availability_zones
     log_workspace_id: la_workspace.outputs.log_workspace_id
