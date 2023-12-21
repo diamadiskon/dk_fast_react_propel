@@ -228,7 +228,7 @@ module aks 'modules/aks.bicep' = {
   params: {
     aksName: 'aks-${suffix}'
     location: location
-    version: '1.25.6'
+    version: '1.29'
     aksSubnetId: vnet.outputs.snet_aks_id
     availability_zones: availability_zones
     log_workspace_id: la_workspace.outputs.log_workspace_id
@@ -237,21 +237,6 @@ module aks 'modules/aks.bicep' = {
     vnet
   ]
 }
-
-// Role assignments for AKS
-
-// module aks_role_assignment 'modules/aks-role-assignment.bicep' = {//asign network contributor to aks identity
-//   name: 'aks-role-assignment-deployment'
-//   params: {
-//     aksName: aks.outputs.aksName
-//     acrName: registry.outputs.registry_name
-//     aksManagedIdentityPrincipalId: aks.outputs.aksManagedIdentityPrincipalId
-//   }
-//   dependsOn: [
-//     aks
-//     registry
-//   ]
-// }
 
 // application gateway
 
@@ -291,6 +276,70 @@ module la_workspace 'modules/la_workspace.bicep' = {
     location: location
     logAnalyticsWorkspace: naming.logAnalyticsWorkspace.name
   }
+}
+
+/// Role assignments ///
+
+// Role assignments for AKS
+module aks_role_assignment 'modules/role_assignment.bicep' = {
+  name: 'role-assignment-deployment'
+  params: {
+    built_in_role_type: 'Contributor'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
+module acrpull_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'acrpull-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'AcrPull'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
+module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'network-contributor-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'NetworkContributor'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
+// Role assignments for Jumpbox
+
+module contributor_jumpbox_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'role-assignment-deployment'
+  params: {
+    built_in_role_type: 'Contributor'
+    principal_id: jumpbox.outputs.vm_identity_principal_id
+  }
+  dependsOn: [
+    jumpbox
+  ]
+}
+
+module acrpush_jumpbox_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'acrpush-role-assignment-deployment'
+  params: {
+    built_in_role_type: 'AcrPush'
+    principal_id: jumpbox.outputs.vm_identity_principal_id
+  }
+  dependsOn: [
+    jumpbox
+  ]
 }
 
 /// Variables ///
