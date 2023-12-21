@@ -9,6 +9,9 @@ param location string
 @description('Availability Zone for vm redundancy')
 param availability_zones array
 
+@description('Name of VM extension')
+param extensionName string
+
 @description('Size of the vm')
 param size string
 
@@ -176,7 +179,7 @@ resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@202
 }
 
 resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-  name: '/docker'
+  name: '${name}/${extensionName}'
   location: location
   properties: {
     publisher: 'Microsoft.Azure.Extensions'

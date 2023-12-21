@@ -144,7 +144,7 @@ module jumpbox 'modules/jumpbox.bicep' = {
     location: location
     availability_zones: [ '1' ]
     size: 'Standard_D2_v2'
-
+    extensionName: 'setup-agent-extension'
     admin_username: jumpbox_admin_username
     admin_password: kv_existing.getSecret(jumpbox_admin_password_secret_name)
     image_publisher: 'Canonical'
