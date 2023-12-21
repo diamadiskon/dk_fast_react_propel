@@ -282,7 +282,7 @@ module la_workspace 'modules/la_workspace.bicep' = {
 
 // Role assignments for AKS
 module aks_role_assignment 'modules/role_assignment.bicep' = {
-  name: 'role-assignment-deployment'
+  name: 'aks-role-assignment-deployment'
   params: {
     built_in_role_type: 'Contributor'
     principal_id: aks.outputs.aksManagedIdentityPrincipalId
@@ -320,7 +320,7 @@ module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
 
 module contributor_jumpbox_role_assignment 'modules/role_assignment.bicep' = {
   scope: resourceGroup(rg_name)
-  name: 'role-assignment-deployment'
+  name: 'jump-role-assignment-deployment'
   params: {
     built_in_role_type: 'Contributor'
     principal_id: jumpbox.outputs.vm_identity_principal_id
