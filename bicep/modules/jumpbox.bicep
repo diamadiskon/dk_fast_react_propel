@@ -150,7 +150,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
 }
 
 resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-  name: vm.name
+  name: 'vm-fast-react-d/initial-config'
   location: location
   properties: {
     publisher: 'Microsoft.Azure.Extensions'
