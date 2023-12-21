@@ -178,17 +178,6 @@ resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@202
   }
 }
 
-resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-  name: '${name}/${extensionName}'
-  location: location
-  properties: {
-    publisher: 'Microsoft.Azure.Extensions'
-    type: 'DockerExtension'
-    typeHandlerVersion: '1.0'
-    autoUpgradeMinorVersion: true
-  }
-}
-
 // Outputs
 
 output vm_id string = vm.id
