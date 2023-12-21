@@ -149,16 +149,16 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
   }
 }
 
-// resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-//   name: vm.name
-//   location: location
-//   properties: {
-//     publisher: 'Microsoft.Azure.Extensions'
-//     type: 'DockerExtension'
-//     typeHandlerVersion: '1.0'
-//     autoUpgradeMinorVersion: true
-//   }
-// }
+resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+  name: vm.name
+  location: location
+  properties: {
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'DockerExtension'
+    typeHandlerVersion: '1.0'
+    autoUpgradeMinorVersion: true
+  }
+}
 
 // resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
 //   parent: vm
