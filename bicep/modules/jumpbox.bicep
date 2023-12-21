@@ -161,23 +161,23 @@ resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08
   }
 }
 
-// resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
-//   parent: vm
-//   name: 'initial-config'
-//   location: location
-//   properties: {
-//     publisher: 'Microsoft.Azure.Extensions'
-//     type: 'CustomScript'
-//     typeHandlerVersion: '2.1'
-//     autoUpgradeMinorVersion: true
-//     protectedSettings: {
-//       fileUris: [
-//         '${scriptUrl}'
-//       ]
-//       commandToExecute: 'sh ${scriptName} ${admin_username} ${AzureDevOpsURL} ${AzureDevOpsPAT} ${AgentPoolName}'
-//     }
-//   }
-// }
+resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+  parent: vm
+  name: 'initial-config'
+  location: location
+  properties: {
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'CustomScript'
+    typeHandlerVersion: '2.1'
+    autoUpgradeMinorVersion: true
+    protectedSettings: {
+      fileUris: [
+        '${scriptUrl}'
+      ]
+      commandToExecute: 'sh ${scriptName} ${admin_username} ${AzureDevOpsURL} ${AzureDevOpsPAT} ${AgentPoolName}'
+    }
+  }
+}
 
 // Outputs
 
