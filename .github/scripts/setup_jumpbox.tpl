@@ -9,4 +9,4 @@ sudo apt-get update -y
 sudo apt-get install azure-cli -y
 sudo az aks install-cli
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-sudo az aks get-credentials --resource-group 'rg-fast-react-dev-weu' --name 'aks-fast-react-dev-weu' --overwrite-existing
+# sudo az aks get-credentials --resource-group 'rg-fast-react-dev-weu' --name 'aks-fast-react-dev-weu' --overwrite-existing
