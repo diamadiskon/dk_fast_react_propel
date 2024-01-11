@@ -48,8 +48,9 @@ jobs:
 
             - name: Deploy template
               run: |
-                  az deployment sub create \
+                  az stack sub create \
                   --name "${{ vars.DEPLOYMENT_NAME }}" \
                   --location "${{ vars.LOCATION }}"  \
                   --template-file azure.deploy.bicep \
                   --parameters azure.deploy.parameters.json
+                  --deny-settings-mode 'none'
