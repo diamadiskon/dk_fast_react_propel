@@ -304,6 +304,18 @@ module acrpull_role_assignment 'modules/role_assignment.bicep' = {
   ]
 }
 
+module acrpush_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'acrpush-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'AcrPush'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
 module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
   scope: resourceGroup(rg_name)
   name: 'network-contributor-role-assignment-${workload}-deployment'
