@@ -292,6 +292,17 @@ module aks_role_assignment 'modules/role_assignment.bicep' = {
   ]
 }
 
+module aks_role_assignment_owner 'modules/role_assignment.bicep' = {
+  name: 'aks-role-assignment-owner-deployment'
+  params: {
+    built_in_role_type: 'Owner'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
 module acrpull_role_assignment 'modules/role_assignment.bicep' = {
   scope: resourceGroup(rg_name)
   name: 'acrpull-role-assignment-${workload}-deployment'
@@ -334,7 +345,7 @@ module contributor_jumpbox_role_assignment 'modules/role_assignment.bicep' = {
   scope: resourceGroup(rg_name)
   name: 'jump-role-assignment-deployment'
   params: {
-    built_in_role_type: 'Contributor'
+    built_in_role_type: 'Owner'
     principal_id: jumpbox.outputs.vm_identity_principal_id
   }
   dependsOn: [
