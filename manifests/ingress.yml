@@ -8,7 +8,7 @@ metadata:
   name: app-ingress
 spec:
   rules:
-  - host: foo.bar.com
+  - host: health-monitor.westeurope.cloudapp.azure.com
     http:
       paths:
       - pathType: Prefix
