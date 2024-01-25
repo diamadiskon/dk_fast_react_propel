@@ -1,6 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
+  namespace: app
   name: frontend-container-service
 spec:
   selector:
@@ -13,6 +14,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
+  namespace: app
   name: backend-container-service
 spec:
   selector:

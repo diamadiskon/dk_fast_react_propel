@@ -37,3 +37,13 @@ git clone https://github.com/diamadiskon/dk_fast_react_propel.git
 #     --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux \
 #     --set controller.service.externalTrafficPolicy=Local \
 #     --set controller.service.loadBalancerIP="REPLACE_STATIC_IP" 
+
+
+
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+    --namespace app \
+    --set controller.replicaCount=2 \
+    --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux \
+    --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux \
+    --set controller.service.externalTrafficPolicy=Local \
+    --set controller.service.loadBalancerIP="20.16.118.226"

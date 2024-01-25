@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
-namespace: app
 metadata:
+  namespace: app
   labels:
     name: frontend
   name: frontend
