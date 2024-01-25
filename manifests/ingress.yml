@@ -3,15 +3,15 @@ kind: Ingress
 metadata:
   namespace: app
   name: app-ingress
-  annotations:
-    ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - host: foo.bar.com
     http:
       paths:
-      - path: /app
+      - pathType: Prefix
+        path: "/"
         backend:
-          serviceName: frontend-container-service
-          servicePort: 80
-
+          service:
+            name: frontend-container-service
+            port:
+              number: 80
