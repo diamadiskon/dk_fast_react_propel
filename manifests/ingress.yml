@@ -6,12 +6,13 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
+  - host: 20.76.163.242 # Replace with your domain
     http:
       paths:
       - path: /
         pathType: Prefix
-        frontend:
+        backend:
           service:
-            name: frontend-service # Replace with your service name
+            name: frontend-svc # Replace with your service name
             port:
               number: 80
