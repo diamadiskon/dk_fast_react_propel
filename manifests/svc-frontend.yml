@@ -1,5 +1,8 @@
 kind: Service
 apiVersion: v1
+annotations:
+  service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  service.beta.kubernetes.io/azure-pip-name: myAKSPublicIPForIngress
 metadata:
   namespace: app
   name: frontend-container-service
