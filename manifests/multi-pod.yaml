@@ -7,12 +7,12 @@ metadata:
 spec:
   containers:
   - name: backend-container
-    image: acr.io/app/backend:latest
+    image: acrfastreactdevweuh2ww2.azurecr.io/app/backend:latest
     ports:
     - containerPort: 8080
 
   - name: frontend-container
-    image: acr.io/app/frontend:latest
+    image: acrfastreactdevweuh2ww2.azurecr.io/app/frontend:latest
     ports:
     - containerPort: 80
 
