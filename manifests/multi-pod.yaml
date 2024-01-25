@@ -10,18 +10,12 @@ spec:
     image: acr.io/app/backend:latest
     ports:
     - containerPort: 8080
-    resources:
-      limits:
-        cpu: "2"
-        memory: "2Gi"
+
   - name: frontend-container
     image: acr.io/app/frontend:latest
     ports:
     - containerPort: 80
-    resources:
-      limits:
-        cpu: "2"
-        memory: "2Gi"
+
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
