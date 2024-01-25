@@ -1,0 +1,22 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: frontend-container-service
+spec:
+  selector:
+    name: frontend
+  ports:
+  - port: 80 # Default port for image
+    targetPort: 80
+---
+# svc-backend.yml
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend-container-service
+spec:
+  selector:
+    name: backend
+  ports:
+  - port: 8080 # Default port for image
+    targetPort: 8080

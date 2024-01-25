@@ -1,5 +1,11 @@
 targetScope = 'resourceGroup'
 
+metadata namme = 'main deployment'
+metadata description = '''
+- item 1
+- item 2
+'''
+
 param location string
 param location_abbreviation string
 param workload string

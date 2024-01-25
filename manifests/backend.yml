@@ -1,21 +1,16 @@
 apiVersion: v1
 kind: Pod
+namespace: app
 metadata:
   labels:
-    run: multi-pod
-  name: multi-pod
+    name: backend
+  name: backend
 spec:
   containers:
   - name: backend-container
     image: acrfastreactdevweuh2ww2.azurecr.io/app/backend:latest
     ports:
     - containerPort: 8080
-
-  - name: frontend-container
-    image: acrfastreactdevweuh2ww2.azurecr.io/app/frontend:latest
-    ports:
-    - containerPort: 80
-
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
