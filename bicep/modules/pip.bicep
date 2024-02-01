@@ -13,8 +13,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2021-05-01' = {
   }
   zones: [
     '1'
-    '2'
-    '3'
+
   ]
   sku: {
     name: 'Standard'

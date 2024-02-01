@@ -17,7 +17,7 @@ param cdfPublicIpName string
 param agSubnetId string
 
 @description('Availability Zone for redundancy')
-param availability_zones array = [ '1', '2', '3' ]
+param availability_zones array = [ '1' ]
 
 @description('Private ip address for AG frontend configuration')
 param agPrivateIpAddress string
