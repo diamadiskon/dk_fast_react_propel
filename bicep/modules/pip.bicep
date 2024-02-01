@@ -10,7 +10,6 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2021-05-01' = {
   properties: {
     publicIPAllocationMethod: allocationMethod
     publicIPAddressVersion: 'IPv4'
-
   }
   sku: {
     name: 'Standard'
