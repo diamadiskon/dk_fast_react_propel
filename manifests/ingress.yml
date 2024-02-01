@@ -3,8 +3,8 @@ kind: Ingress
 metadata:
   name: frontend
   namespace: app
-  # annotations:
-  #   kubernetes.io/ingress.class: azure/application-gateway
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
 spec:
   ingressClassName: azure-application-gateway
   rules:
