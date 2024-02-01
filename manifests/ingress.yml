@@ -1,24 +1,42 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  namespace: app
-  name: app-ingress
+  name: frontend
+  # annotations:
+  #   kubernetes.io/ingress.class: azure/application-gateway
 spec:
+  ingressClassName: azure-application-gateway
   rules:
-  - host: health-monitor.westeurope.cloudapp.azure.com
-    http:
+  - http:
       paths:
-      - pathType: Prefix
-        path: "/"
+      - path: /
         backend:
           service:
             name: frontend-container-service
             port:
               number: 80
+        pathType: Exact
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+#     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+#   namespace: app
+#   name: app-ingress
+# spec:
+#   rules:
+#   - host: health-monitor.westeurope.cloudapp.azure.com
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: "/"
+#         backend:
+#           service:
+#             name: frontend-container-service
+#             port:
+#               number: 80
 
 
 
