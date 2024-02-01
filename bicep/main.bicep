@@ -244,35 +244,45 @@ module aks 'modules/aks.bicep' = {
   ]
 }
 
-// application gateway
+// public ip for application gateway
 
-// module applicationGateway 'modules/agw.bicep' = {
-//   name: 'agw-${workload}-deployment'
-//   params: {
-//     agName: 'agw-${workload}-we'
-//     agSubnetId: vnet.outputs.snet_agw_id
-//     cdfPublicIpName: 'pip-cdf-${workload}-we'
-//     agPrivateIpAddress: '10.1.3.6'
-//     availability_zones: availability_zones
-//     tags: rg_tags
-//     location: location
-//   }
-//   dependsOn: [
-//     vnet
-//   ]
-// }
-
-// DB server
-
-module cosmosdb 'modules/cosmosdb.bicep' = {
-  name: 'cosmosdb-${workload}-deployment'
+module pip_cdf 'modules/pip.bicep' = {
+  name: 'pip-cdf-${workload}-deployment'
   params: {
+    name: 'pip-cdf-${workload}-we'
     location: location
-    tableName: 'health-dashboard-table'
-    primaryRegion: 'westeurope'
-    secondaryRegion: 'northeurope'
+    allocationMethod: 'Static'
   }
 }
+
+// application gateway
+module applicationGateway 'modules/agw.bicep' = {
+  name: 'agw-${workload}-deployment'
+  params: {
+    agName: 'agw-${workload}-we'
+    agSubnetId: vnet.outputs.snet_agw_id
+    cdfPublicIpName: 'pip-cdf-${workload}-we'
+    agPrivateIpAddress: '10.1.3.6'
+    availability_zones: availability_zones
+    tags: rg_tags
+    location: location
+  }
+  dependsOn: [
+    vnet
+  ]
+}
+
+// // DB server
+
+// module cosmosdb 'modules/cosmosdb.bicep' = {
+//   name: 'cosmosdb-${workload}-deployment'
+//   params: {
+//     location: location
+//     tableName: 'health-dashboard-table'
+//     primaryRegion: 'westeurope'
+//     secondaryRegion: 'northeurope'
+//   }
+// }
 
 // Log analytics
 
