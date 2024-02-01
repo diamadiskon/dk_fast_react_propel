@@ -10,3 +10,18 @@ sudo docker tag fullstack-react-fastapi-propel-frontend acrfastreactdevweuh2ww2.
 sudo docker push acrfastreactdevweuh2ww2.azurecr.io/app/backend
 sudo docker push acrfastreactdevweuh2ww2.azurecr.io/app/frontend
 az aks update -n 'aks-fast-react-dev-weu' -g 'rg-fast-react-dev-weu' --attach-acr 'acrfastreactdevweuh2ww2'
+kubectl create namespace ingress-basic 
+Add the official stable repository
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+helm repo update
+#  Customizing the Chart Before Installing. 
+helm show values ingress-nginx/ingress-nginx
+# Use Helm to deploy an NGINX ingress controller
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+    --namespace ingress-basic \
+    --set controller.replicaCount=2 \
+    --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux \
+    --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux \
+    --set controller.service.externalTrafficPolicy=Local \
+    --set controller.service.loadBalancerIP="REPLACE_STATIC_IP"
