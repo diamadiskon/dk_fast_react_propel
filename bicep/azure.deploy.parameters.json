@@ -17,6 +17,11 @@
     "rg_tags": {
       "value": {}
     },
+    "availability_zones": {
+      "value": [
+        "1"
+      ]
+    },
     "jumpbox_admin_username": {
       "value": "azureuser"
     },
