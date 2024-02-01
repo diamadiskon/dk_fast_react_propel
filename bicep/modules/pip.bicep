@@ -11,6 +11,11 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2021-05-01' = {
     publicIPAllocationMethod: allocationMethod
     publicIPAddressVersion: 'IPv4'
   }
+  zones: [
+    '1'
+    '2'
+    '3'
+  ]
   sku: {
     name: 'Standard'
   }
