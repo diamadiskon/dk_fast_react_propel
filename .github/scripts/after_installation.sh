@@ -15,21 +15,12 @@ az aks update -n 'aks-fast-react-dev-weu' -g 'rg-fast-react-dev-weu' --attach-ac
 kubectl create namespace ingress-basic
 alias k=kubectl
 kubectl create namespace app
-# Create an Azure resource group
-# az group create --name 'rg-fast-react-dev-weu' --location 'westeurope'
-# Create Azure Pubblic ip for ingress 
-# az network public-ip create -n myPublicIpIngress -g rg-fast-react-dev-weu --allocation-method Static --sku Standard
-# Pass the variable for ingress controller
-static_ip=$(az network public-ip show --resource-group rg-fast-react-dev-weu --name myPublicIpIngress --query "ipAddress" --output tsv)
-# az network vnet subnet create   --resource-group rg-fast-react-dev-weu   --vnet-name vnet-fast-react-dev-weu  
 
-# On the fly create subnet for agw(they should move to bicep)
-# az network vnet subnet create --resource-group rg-fast-react-dev-weu --vnet-name vnet-fast-react-dev-weu --name agwsubnet   --address-prefixes 10.1.5.0/24
-# Create an Application Gateway on the fly(they should move to bicep)
-# az network application-gateway create -n myApplicationGateway -g rg-fast-react-dev-weu --sku Standard_v2 --public-ip-address myPublicIpIngress --vnet-name vnet-fast-react-dev-weu --subnet agwsubnet --priority 100
+# Pass the variable for ingress controller
+static_ip=$(az network public-ip show --resource-group rg-fast-react-dev-weu --name pip-cdf-fast-react-we --query "ipAddress" --output tsv)
 
 # Enable the Application Gateway addon on the AKS cluster(they should move to bicep)
-# appgwId=$(az network application-gateway show -n myApplicationGateway -g rg-fast-react-dev-weu -o tsv --query "id")
+# appgwId=$(az network application-gateway show -n agw-fast-react-we -g rg-fast-react-dev-weu -o tsv --query "id")
 # az aks enable-addons -n aks-fast-react-dev-weu -g rg-fast-react-dev-weu -a ingress-appgw --appgw-id "$appgwId"
 
 # Peer the virtual networks AKS and Application Gateway(they should move to bicep)
