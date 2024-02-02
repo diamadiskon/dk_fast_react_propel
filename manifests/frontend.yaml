@@ -10,7 +10,7 @@ spec:
   - name: frontend-container
     image: acrfastreactdevweuh2ww2.azurecr.io/app/frontend:latest
     ports:
-    - containerPort: 80
+    - containerPort: 3000
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
