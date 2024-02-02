@@ -34,7 +34,7 @@ spec:
   - host: health-data.westeurope.cloudapp.azure.com
     http:
       paths:
-      - path: /
+      - path: /app
         backend:
           service:
             name: frontend-container-service
