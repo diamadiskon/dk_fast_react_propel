@@ -10,7 +10,7 @@ spec:
     name: frontend
   ports:
   - port: 80 # Default port for image
-    targetPort: 80
+    targetPort: 8080
 ---
 # svc-backend.yml
 kind: Service
