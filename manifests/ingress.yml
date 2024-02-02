@@ -5,8 +5,6 @@ metadata:
   namespace: app
   annotations:
     kubernetes.io/ingress.class: azure-application-gateway
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
-    nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: azure-application-gateway
