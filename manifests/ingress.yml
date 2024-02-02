@@ -5,7 +5,9 @@ metadata:
   namespace: app
   annotations:
     kubernetes.io/ingress.class: azure/application-gateway
-    appgw.ingress.kubernetes.io/backend-protocol: "https"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: azure-application-gateway
   rules:
