@@ -20,18 +20,8 @@ kubectl create namespace app
 static_ip=$(az network public-ip show --resource-group rg-fast-react-dev-weu --name pip-cdf-fast-react-we --query "ipAddress" --output tsv)
 
 # Enable the Application Gateway addon on the AKS cluster(they should move to bicep)
-# appgwId=$(az network application-gateway show -n agw-fast-react-we -g rg-fast-react-dev-weu -o tsv --query "id")
-# az aks enable-addons -n aks-fast-react-dev-weu -g rg-fast-react-dev-weu -a ingress-appgw --appgw-id "$appgwId"
-
-# Peer the virtual networks AKS and Application Gateway(they should move to bicep)
-# nodeResourceGroup=$(az aks show -n aks-fast-react-dev-weu -g rg-fast-react-dev-weu -o tsv --query "nodeResourceGroup")
-# aksVnetName=$(az network vnet list -g $nodeResourceGroup -o tsv --query "[0].name")
-
-# aksVnetId=$(az network vnet show -n $aksVnetName -g $nodeResourceGroup -o tsv --query "id")
-# az network vnet peering create -n AppGWtoAKSVnetPeering -g rg-fast-react-dev-weu --vnet-name vnet-fast-react-dev-weu --remote-vnet $aksVnetId --allow-vnet-access
-
-# appGWVnetId=$(az network vnet show -n vnet-fast-react-dev-weu -g rg-fast-react-dev-weu -o tsv --query "id")
-# az network vnet peering create -n AKStoAppGWVnetPeering -g $nodeResourceGroup --vnet-name $aksVnetName --remote-vnet $appGWVnetId --allow-vnet-access
+appgwId=$(az network application-gateway show -n agw-fast-react-we -g rg-fast-react-dev-weu -o tsv --query "id")
+az aks enable-addons -n aks-fast-react-dev-weu -g rg-fast-react-dev-weu -a ingress-appgw --appgw-id "$appgwId"
 
 # Add the official stable repository
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
