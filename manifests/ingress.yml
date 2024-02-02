@@ -12,10 +12,12 @@ spec:
   - host: health-monitor.westeurope.cloudapp.azure.com
     http:
       paths:
-      - path: /
+      - path: /app
         backend:
-          serviceName: frontend-container-service
-          servicePort: 80
+          service:
+            name: frontend-container-service
+            port:
+              number: 80
         pathType: Exact
 # apiVersion: networking.k8s.io/v1
 # kind: Ingress
