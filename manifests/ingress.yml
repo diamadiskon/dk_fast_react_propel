@@ -43,5 +43,5 @@ spec:
           service:
             name: frontend-container-service
             port:
-              number: 80
+              number: 3000
         pathType: Exact
