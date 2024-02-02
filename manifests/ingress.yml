@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: frontend
@@ -14,10 +14,8 @@ spec:
       paths:
       - path: /
         backend:
-          service:
-            name: frontend-container-service
-            port:
-              number: 80
+          serviceName: frontend-container-service
+          servicePort: 80
         pathType: Exact
 # apiVersion: networking.k8s.io/v1
 # kind: Ingress
