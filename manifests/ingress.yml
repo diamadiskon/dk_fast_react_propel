@@ -4,12 +4,12 @@ metadata:
   name: agic-ingress
   namespace: app
   annotations:
-    kubernetes.io/ingress.class: azure/application-gateway
     nginx.ingress.kubernetes.io/rewrite-target: /
     appgw.ingress.kubernetes.io/backend-path-prefix: /
     appgw.ingress.kubernetes.io/ssl-redirect: "false"
 
 spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
   rules:
   - host: health-data.westeurope.cloudapp.azure.com
     http:

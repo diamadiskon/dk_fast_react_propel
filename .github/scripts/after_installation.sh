@@ -19,9 +19,13 @@ kubectl create namespace app
 # Pass the variable for ingress controller
 static_ip=$(az network public-ip show --resource-group rg-fast-react-dev-weu --name pip-cdf-fast-react-we --query "ipAddress" --output tsv)
 
-# Enable the Application Gateway addon on the AKS cluster(they should move to bicep)
-appgwId=$(az network application-gateway show -n agw-fast-react-we -g rg-fast-react-dev-weu -o tsv --query "id")
-az aks enable-addons -n aks-fast-react-dev-weu -g rg-fast-react-dev-weu -a ingress-appgw --appgw-id "$appgwId"
+# Create ingressing controller
+az aks approuting enable -g rg-fast-react-dev-weu -n aks-fast-react-dev-weu
+
+
+# # Enable the Application Gateway addon on the AKS cluster(they should move to bicep)
+# appgwId=$(az network application-gateway show -n agw-fast-react-we -g rg-fast-react-dev-weu -o tsv --query "id")
+# az aks enable-addons -n aks-fast-react-dev-weu -g rg-fast-react-dev-weu -a ingress-appgw --appgw-id "$appgwId"
 
 # Add the official stable repository
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
