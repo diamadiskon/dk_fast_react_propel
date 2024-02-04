@@ -11,6 +11,7 @@ metadata:
 
 spec:
   ingressClassName: nginx
+  type: LoadBalancer
   rules:
   - host: health-data.westeurope.cloudapp.azure.com
     http:
