@@ -1,31 +1,7 @@
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: frontend
-#   namespace: app
-#   annotations:
-#     kubernetes.io/ingress.class: azure-application-gateway
-#     nginx.ingress.kubernetes.io/rewrite-target: /
-# spec:
-#   ingressClassName: azure-application-gateway
-#   rules:
-#   - host: health-monitor.westeurope.cloudapp.azure.com
-#     http:
-#       paths:
-#       - path: /app
-#         backend:
-#           service:
-#             name: frontend-container-service
-#             port:
-#               number: 80
-#         pathType: Exact
-
-
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: frontent-agic
+  name: agic-ingress
   namespace: app
   annotations:
     kubernetes.io/ingress.class: azure/application-gateway
@@ -44,4 +20,11 @@ spec:
             name: frontend-container-service
             port:
               number: 3000
+        pathType: Exact
+      - path: /api
+        backend:
+          service:
+            name: backend-container-service
+            port:
+              number: 8080
         pathType: Exact
