@@ -4,11 +4,10 @@ metadata:
   name: agic-ingress
   namespace: app
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingress.class: webapprouting.kubernetes.azure.com
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: addon-http-application-routing
 
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
