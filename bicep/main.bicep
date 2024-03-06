@@ -1,6 +1,6 @@
 targetScope = 'resourceGroup'
 
-metadata namme = 'main deployment'
+metadata name = 'main deployment'
 metadata description = '''
 - item 1
 - item 2
@@ -149,7 +149,7 @@ module jumpbox 'modules/jumpbox.bicep' = {
     name: naming.virtualMachine.name
     location: location
     availability_zones: [ '1' ]
-    size: 'Standard_D2_v2'
+    size: 'Standard_B2s'
     extensionName: 'setup-agent-extension'
     admin_username: jumpbox_admin_username
     admin_password: kv_existing.getSecret(jumpbox_admin_password_secret_name)
@@ -227,50 +227,67 @@ module registry 'modules/registry.bicep' = {
   }
 }
 
-// AKS 
+// App Service Plan
 
-module aks 'modules/aks.bicep' = {
-  name: 'aks-deployment'
+module app_service_plan 'modules/app_service_plan.bicep' = {
+  name: 'asp-${workload}-deployment'
   params: {
-    aksName: 'aks-${suffix}'
+    name: naming.appServicePlan.name
     location: location
-    version: '1.28.0'
-    aksSubnetId: vnet.outputs.snet_aks_id
-    availability_zones: availability_zones
-    log_workspace_id: la_workspace.outputs.log_workspace_id
+    kind: 'linux'
+    reserved: true
+    sku_name: 'P1v2'
+    sku_tier: 'Premium'
+    zone_redundant: false
   }
-  dependsOn: [
-    vnet
-  ]
 }
+
+// Web Application
+
+// module webapps 'modules/webapps.bicep' = {
+//   name: 'webapps-${workload}-deployment'
+//   params: {
+//     name_backend: 'backend-${workload}-we'
+//     name_frontend: 'frontend-${workload}-we'
+//     location: location
+//     always_on: true
+//     app_insights_key: ''
+//     app_service_plan_id: app_service_plan.outputs.app_service_plan_id
+//     image_name_backend: 'app/backend'
+//     image_name_frontend: 'app/frontend'
+//     registry_name: registry.outputs.registry_name
+//     subnet_id: vnet.outputs.snet_aks_id
+//   }
+// }
 
 // public ip for application gateway
 
-module pip_cdf 'modules/pip.bicep' = {
-  name: 'pip-cdf-${workload}-deployment'
-  params: {
-    name: 'pip-cdf-${workload}-we'
-    location: location
-    allocationMethod: 'Static'
-  }
-}
+// module pip_cdf 'modules/pip.bicep' = {
+//   name: 'pip-cdf-${workload}-deployment'
+//   params: {
+//     name: 'pip-cdf-${workload}-we'
+//     location: location
+//     allocationMethod: 'Static'
+//   }
+// }
 
 // application gateway
-module applicationGateway 'modules/agw.bicep' = {
-  name: 'agw-${workload}-deployment'
-  params: {
-    agName: 'agw-${workload}-we'
-    agSubnetId: vnet.outputs.snet_agw_id
-    cdfPublicIpName: 'pip-cdf-${workload}-we'
-    agPrivateIpAddress: '10.1.3.6'
-    availability_zones: availability_zones
-    tags: rg_tags
-    location: location
-  }
-  dependsOn: [
-    vnet
-  ]
-}
+
+// module applicationGateway 'modules/agw.bicep' = {
+//   name: 'agw-${workload}-deployment'
+//   params: {
+//     agName: 'agw-${workload}-we'
+//     agSubnetId: vnet.outputs.snet_agw_id
+//     cdfPublicIpName: 'pip-cdf-${workload}-we'
+//     agPrivateIpAddress: '10.1.3.6'
+//     availability_zones: availability_zones
+//     tags: rg_tags
+//     location: location
+//   }
+//   dependsOn: [
+//     vnet
+//   ]
+// }
 
 // // DB server
 
@@ -297,63 +314,75 @@ module la_workspace 'modules/la_workspace.bicep' = {
 /// Role assignments ///
 
 // // Role assignments for AKS
-module aks_role_assignment 'modules/role_assignment.bicep' = {
-  name: 'aks-role-assignment-deployment'
-  params: {
-    built_in_role_type: 'Contributor'
-    principal_id: aks.outputs.aksManagedIdentityPrincipalId
-  }
-  dependsOn: [
-    aks
-  ]
-}
+// module aks_role_assignment 'modules/role_assignment.bicep' = {
+//   name: 'aks-role-assignment-deployment'
+//   params: {
+//     built_in_role_type: 'Contributor'
+//     principal_id: aks.outputs.aksManagedIdentityPrincipalId
+//   }
+//   dependsOn: [
+//     aks
+//   ]
+// }
 
-module aks_role_assignment_owner 'modules/role_assignment.bicep' = {
-  name: 'aks-role-assignment-owner-deployment'
-  params: {
-    built_in_role_type: 'Owner'
-    principal_id: aks.outputs.aksManagedIdentityPrincipalId
-  }
-  dependsOn: [
-    aks
-  ]
-}
+// module aks_role_assignment_owner 'modules/role_assignment.bicep' = {
+//   name: 'aks-role-assignment-owner-deployment'
+//   params: {
+//     built_in_role_type: 'Owner'
+//     principal_id: aks.outputs.aksManagedIdentityPrincipalId
+//   }
+//   dependsOn: [
+//     aks
+//   ]
+// }
 
-module acrpull_role_assignment 'modules/role_assignment.bicep' = {
-  scope: resourceGroup(rg_name)
-  name: 'acrpull-role-assignment-${workload}-deployment'
-  params: {
-    built_in_role_type: 'AcrPull'
-    principal_id: aks.outputs.aksManagedIdentityPrincipalId
-  }
-  dependsOn: [
-    aks
-  ]
-}
+// module acrpull_role_assignment 'modules/role_assignment.bicep' = {
+//   scope: resourceGroup(rg_name)
+//   name: 'acrpull-role-assignment-${workload}-deployment'
+//   params: {
+//     built_in_role_type: 'AcrPull'
+//     principal_id: webapps.outputs.webapp_frontend_identity_principal_id
+//   }
+//   dependsOn: [
+//     webapps
+//   ]
+// }
 
-module acrpush_role_assignment 'modules/role_assignment.bicep' = {
-  scope: resourceGroup(rg_name)
-  name: 'acrpush-role-assignment-${workload}-deployment'
-  params: {
-    built_in_role_type: 'AcrPush'
-    principal_id: aks.outputs.aksManagedIdentityPrincipalId
-  }
-  dependsOn: [
-    aks
-  ]
-}
+// module acrpull_role_assignment_back 'modules/role_assignment.bicep' = {
+//   scope: resourceGroup(rg_name)
+//   name: 'acrpull-role-back-assignment-${workload}-deployment'
+//   params: {
+//     built_in_role_type: 'AcrPull'
+//     principal_id: webapps.outputs.webapp_backend_identity_principal_id
+//   }
+//   dependsOn: [
+//     webapps
+//   ]
+// }
 
-module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
-  scope: resourceGroup(rg_name)
-  name: 'network-contributor-role-assignment-${workload}-deployment'
-  params: {
-    built_in_role_type: 'NetworkContributor'
-    principal_id: aks.outputs.aksManagedIdentityPrincipalId
-  }
-  dependsOn: [
-    aks
-  ]
-}
+// module acrpush_role_assignment 'modules/role_assignment.bicep' = {
+//   scope: resourceGroup(rg_name)
+//   name: 'acrpush-role-assignment-${workload}-deployment'
+//   params: {
+//     built_in_role_type: 'AcrPush'
+//     principal_id: aks.outputs.aksManagedIdentityPrincipalId
+//   }
+//   dependsOn: [
+//     aks
+//   ]
+// }
+
+// module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
+//   scope: resourceGroup(rg_name)
+//   name: 'network-contributor-role-assignment-${workload}-deployment'
+//   params: {
+//     built_in_role_type: 'NetworkContributor'
+//     principal_id: aks.outputs.aksManagedIdentityPrincipalId
+//   }
+//   dependsOn: [
+//     aks
+//   ]
+// }
 
 // // Role assignments for Jumpbox
 
@@ -381,7 +410,7 @@ module acrpush_jumpbox_role_assignment 'modules/role_assignment.bicep' = {
   ]
 }
 
-// /// Variables ///
+// // /// Variables ///
 
 var kv_name = '${naming.keyVault.nameUnique}'
 var suffix = '${workload}-${environment}-${location_abbreviation}'

@@ -44,7 +44,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://health-data.westeurope.cloudapp.azure.com:8080",
+  
+  "proxy": "https://frontend-fast-react-we.azurewebsites.net:3000",
   "description": "This repo contains a forkable repo which uses [PropelAuth](https://www.propelauth.com/?utm_campaign=github) where users can sign up, login, manage their accounts, and view organization and member information.",
   "main": "index.js",
   "devDependencies": {},

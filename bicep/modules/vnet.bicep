@@ -62,11 +62,20 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
         name: snet_aks_name
         properties: {
           addressPrefix: snet_aks_address_prefix
-          privateEndpointNetworkPolicies: 'Disabled'  // required
+          privateEndpointNetworkPolicies: 'Disabled' // required
           privateLinkServiceNetworkPolicies: 'Disabled'
           serviceEndpoints: [
-            { // access to the ACR service endpoint without using public IP
+            {// access to the ACR service endpoint without using public IP
               service: 'Microsoft.ContainerRegistry'
+            }
+
+          ]
+          delegations: [
+            {
+              name: 'delegation'
+              properties: {
+                serviceName: 'Microsoft.Web/serverfarms'
+              }
             }
           ]
         }
@@ -94,7 +103,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
           privateEndpointNetworkPolicies: 'Disabled'
           privateLinkServiceNetworkPolicies: 'Disabled'
           networkSecurityGroup: {
-              id: nsgBastionId   // connect nsg rule to the subnet
+            id: nsgBastionId // connect nsg rule to the subnet
           }
         }
       }
