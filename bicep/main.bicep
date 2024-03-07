@@ -247,22 +247,22 @@ module app_service_plan 'modules/app_service_plan.bicep' = {
 
 // Web Application
 
-// module webapps 'modules/webapps.bicep' = {
-//   name: 'webapps-${workload}-deployment'
-//   params: {
-//     name_backend: 'backend-${workload}-we'
-//     name_frontend: 'frontend-${workload}-we'
-//     location: location
-//     always_on: true
-//     app_insights_key: ''
-//     app_service_plan_id: app_service_plan.outputs.app_service_plan_id
-//     image_name_backend: 'app/backend'
-//     image_name_frontend: 'app/frontend'
-//     registry_name: registry.outputs.registry_name
-//     subnet_id: vnet.outputs.snet_aks_id
-//     propelauth_api_key: propelauth_api_key
-//   }
-// }
+module webapps 'modules/webapps.bicep' = {
+  name: 'webapps-${workload}-deployment'
+  params: {
+    name_backend: 'backend-${workload}-we'
+    name_frontend: 'frontend-${workload}-we'
+    location: location
+    always_on: true
+    app_insights_key: ''
+    app_service_plan_id: app_service_plan.outputs.app_service_plan_id
+    image_name_backend: 'app/backend'
+    image_name_frontend: 'app/frontend'
+    registry_name: registry.outputs.registry_name
+    subnet_id: vnet.outputs.snet_aks_id
+    propelauth_api_key: propelauth_api_key
+  }
+}
 
 // // DB server
 
@@ -288,51 +288,51 @@ module la_workspace 'modules/la_workspace.bicep' = {
 
 /// Role assignments ///
 
-// module webapp_role_front_assignment_owner 'modules/role_assignment.bicep' = {
-//   name: 'aks-role-assignment-front-owner-deployment'
-//   params: {
-//     built_in_role_type: 'Owner'
-//     principal_id: webapps.outputs.webapp_frontend_identity_principal_id
-//   }
-//   dependsOn: [
-//     webapps
-//   ]
-// }
+module webapp_role_front_assignment_owner 'modules/role_assignment.bicep' = {
+  name: 'aks-role-assignment-front-owner-deployment'
+  params: {
+    built_in_role_type: 'Owner'
+    principal_id: webapps.outputs.webapp_frontend_identity_principal_id
+  }
+  dependsOn: [
+    webapps
+  ]
+}
 
-// module webapp_role_assignment_owner 'modules/role_assignment.bicep' = {
-//   name: 'aks-role-assignment-back-owner-deployment'
-//   params: {
-//     built_in_role_type: 'Owner'
-//     principal_id: webapps.outputs.webapp_backend_identity_principal_id
-//   }
-//   dependsOn: [
-//     webapps
-//   ]
-// }
+module webapp_role_assignment_owner 'modules/role_assignment.bicep' = {
+  name: 'aks-role-assignment-back-owner-deployment'
+  params: {
+    built_in_role_type: 'Owner'
+    principal_id: webapps.outputs.webapp_backend_identity_principal_id
+  }
+  dependsOn: [
+    webapps
+  ]
+}
 
-// module acrpull_role_assignment 'modules/role_assignment.bicep' = {
-//   scope: resourceGroup(rg_name)
-//   name: 'acrpull-role-assignment-${workload}-deployment'
-//   params: {
-//     built_in_role_type: 'AcrPull'
-//     principal_id: webapps.outputs.webapp_frontend_identity_principal_id
-//   }
-//   dependsOn: [
-//     webapps
-//   ]
-// }
+module acrpull_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'acrpull-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'AcrPull'
+    principal_id: webapps.outputs.webapp_frontend_identity_principal_id
+  }
+  dependsOn: [
+    webapps
+  ]
+}
 
-// module acrpull_role_assignment_back 'modules/role_assignment.bicep' = {
-//   scope: resourceGroup(rg_name)
-//   name: 'acrpull-role-back-assignment-${workload}-deployment'
-//   params: {
-//     built_in_role_type: 'AcrPull'
-//     principal_id: webapps.outputs.webapp_backend_identity_principal_id
-//   }
-//   dependsOn: [
-//     webapps
-//   ]
-// }
+module acrpull_role_assignment_back 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'acrpull-role-back-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'AcrPull'
+    principal_id: webapps.outputs.webapp_backend_identity_principal_id
+  }
+  dependsOn: [
+    webapps
+  ]
+}
 
 // module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
 //   scope: resourceGroup(rg_name)
