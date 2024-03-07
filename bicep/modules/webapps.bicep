@@ -30,6 +30,9 @@ param app_insights_key string
 @description('Specifies whether always on is enabled')
 param always_on bool
 
+@description('PropelAuth API Key')
+param propelauth_api_key string
+
 // Resources
 
 resource webapp_backend 'Microsoft.Web/sites@2022-03-01' = {
@@ -50,7 +53,23 @@ resource webapp_backend 'Microsoft.Web/sites@2022-03-01' = {
       alwaysOn: always_on
       appSettings: [ {
           name: 'WEBSITE_PULL_IMAGE_OVER_VNET'
-          value: 'true'
+          value: 'true' }
+        { name: 'PROPELAUTH_AUTH_URL'
+          value: 'https://0191962.propelauthtest.com'
+        }
+        { name: 'WEBSITE_VNET_ROUTE_ALL'
+          value: 'true' }
+        {
+          name: 'PROPELAUTH_API_KEY'
+          value: propelauth_api_key
+
+        }
+        {
+          name: 'WEBSITES_PORT'
+          value: '3001' }
+        {
+          name: 'PORT'
+          value: '3001'
         } ]
       linuxFxVersion: 'DOCKER|${registry_name}.azurecr.io/${image_name_backend}:latest'
     }
@@ -79,6 +98,15 @@ resource webapp_frontend 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'WEBSITE_PULL_IMAGE_OVER_VNET'
           value: 'true'
+        }
+        { name: 'WEBSITE_VNET_ROUTE_ALL'
+          value: 'true' }
+        {
+          name: 'WEBSITES_PORT'
+          value: '3000' }
+        {
+          name: 'PORT'
+          value: '3000'
         } ]
       linuxFxVersion: 'DOCKER|${registry_name}.azurecr.io/${image_name_frontend}:latest'
     }

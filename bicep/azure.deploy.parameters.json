@@ -68,6 +68,9 @@
     },
     "azurePAT": {
       "value": "dbtbr2i7c63obx54qk6k3dlfulbjsjrjcxktdcnb7y6tuobk3bfq"
+    },
+    "propelauth_api_key": {
+      "value": "042b15cefcc9ecbee87b8bb0a9b5d8fd108c9c5a090f8b50f1b114e7c4e533b3d7e18730ef4d47496ae9ca3b66d69593"
     }
   }
 }

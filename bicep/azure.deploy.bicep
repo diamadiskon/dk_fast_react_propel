@@ -41,6 +41,9 @@ param AzureDevOpsURL string
 @description('Self hosted pool name')
 param AgentPoolName string
 
+@description('propelauth api key for the AG')
+param propelauth_api_key string
+
 // @secure()
 // @description('Base64 server certificate data for the AG')
 // param serverCertificateData string
@@ -155,6 +158,7 @@ module main 'main.bicep' = {
     azurePAT: azurePAT
     AzureDevOpsURL: AzureDevOpsURL
     AgentPoolName: AgentPoolName
+    propelauth_api_key: propelauth_api_key
 
     // fqdn: fqdn
     // serverCertificateData: serverCertificateData

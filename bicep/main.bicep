@@ -72,6 +72,9 @@ param AzureDevOpsURL string
 @description('Self hosted pool name')
 param AgentPoolName string
 
+@description('API Key for propelauth')
+param propelauth_api_key string
+
 // Modules
 
 // Networking Resources
@@ -257,36 +260,8 @@ module app_service_plan 'modules/app_service_plan.bicep' = {
 //     image_name_frontend: 'app/frontend'
 //     registry_name: registry.outputs.registry_name
 //     subnet_id: vnet.outputs.snet_aks_id
+//     propelauth_api_key: propelauth_api_key
 //   }
-// }
-
-// public ip for application gateway
-
-// module pip_cdf 'modules/pip.bicep' = {
-//   name: 'pip-cdf-${workload}-deployment'
-//   params: {
-//     name: 'pip-cdf-${workload}-we'
-//     location: location
-//     allocationMethod: 'Static'
-//   }
-// }
-
-// application gateway
-
-// module applicationGateway 'modules/agw.bicep' = {
-//   name: 'agw-${workload}-deployment'
-//   params: {
-//     agName: 'agw-${workload}-we'
-//     agSubnetId: vnet.outputs.snet_agw_id
-//     cdfPublicIpName: 'pip-cdf-${workload}-we'
-//     agPrivateIpAddress: '10.1.3.6'
-//     availability_zones: availability_zones
-//     tags: rg_tags
-//     location: location
-//   }
-//   dependsOn: [
-//     vnet
-//   ]
 // }
 
 // // DB server
@@ -313,26 +288,25 @@ module la_workspace 'modules/la_workspace.bicep' = {
 
 /// Role assignments ///
 
-// // Role assignments for AKS
-// module aks_role_assignment 'modules/role_assignment.bicep' = {
-//   name: 'aks-role-assignment-deployment'
+// module webapp_role_front_assignment_owner 'modules/role_assignment.bicep' = {
+//   name: 'aks-role-assignment-front-owner-deployment'
 //   params: {
-//     built_in_role_type: 'Contributor'
-//     principal_id: aks.outputs.aksManagedIdentityPrincipalId
+//     built_in_role_type: 'Owner'
+//     principal_id: webapps.outputs.webapp_frontend_identity_principal_id
 //   }
 //   dependsOn: [
-//     aks
+//     webapps
 //   ]
 // }
 
-// module aks_role_assignment_owner 'modules/role_assignment.bicep' = {
-//   name: 'aks-role-assignment-owner-deployment'
+// module webapp_role_assignment_owner 'modules/role_assignment.bicep' = {
+//   name: 'aks-role-assignment-back-owner-deployment'
 //   params: {
 //     built_in_role_type: 'Owner'
-//     principal_id: aks.outputs.aksManagedIdentityPrincipalId
+//     principal_id: webapps.outputs.webapp_backend_identity_principal_id
 //   }
 //   dependsOn: [
-//     aks
+//     webapps
 //   ]
 // }
 
@@ -357,18 +331,6 @@ module la_workspace 'modules/la_workspace.bicep' = {
 //   }
 //   dependsOn: [
 //     webapps
-//   ]
-// }
-
-// module acrpush_role_assignment 'modules/role_assignment.bicep' = {
-//   scope: resourceGroup(rg_name)
-//   name: 'acrpush-role-assignment-${workload}-deployment'
-//   params: {
-//     built_in_role_type: 'AcrPush'
-//     principal_id: aks.outputs.aksManagedIdentityPrincipalId
-//   }
-//   dependsOn: [
-//     aks
 //   ]
 // }
 
