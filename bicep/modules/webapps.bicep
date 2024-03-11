@@ -66,10 +66,10 @@ resource webapp_backend 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'WEBSITES_PORT'
-          value: '80' }
+          value: '443' }
         {
           name: 'PORT'
-          value: '80'
+          value: '443'
         } ]
       linuxFxVersion: 'DOCKER|${registry_name}.azurecr.io/${image_name_backend}:latest'
     }
@@ -103,10 +103,10 @@ resource webapp_frontend 'Microsoft.Web/sites@2022-03-01' = {
           value: 'true' }
         {
           name: 'WEBSITES_PORT'
-          value: '80' }
+          value: '443' }
         {
           name: 'PORT'
-          value: '80'
+          value: '443'
         } ]
       linuxFxVersion: 'DOCKER|${registry_name}.azurecr.io/${image_name_frontend}:latest'
     }
