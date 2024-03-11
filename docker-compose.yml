@@ -14,7 +14,7 @@ services:
         env_file:
             - ./react-frontend-starter/.env
         ports:
-            - 80:3000
+            - 3000:80
 
     backend:
         build:
@@ -26,6 +26,6 @@ services:
         env_file:
             - ./fastapi-backend-starter/.env
         ports:
-            - 80:3000
+            - 3001:80
 volumes:
     nodemodules: {}
