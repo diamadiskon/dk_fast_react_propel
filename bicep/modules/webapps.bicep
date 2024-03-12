@@ -70,7 +70,10 @@ resource webapp_backend 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'PORT'
           value: '443'
-        } ]
+        }
+
+        { name: 'WEBSITES_CONTAINER_START_TIME_LIMIT'
+          value: '500' } ]
       linuxFxVersion: 'DOCKER|${registry_name}.azurecr.io/${image_name_backend}:latest'
     }
 
@@ -107,7 +110,9 @@ resource webapp_frontend 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'PORT'
           value: '443'
-        } ]
+        }
+        { name: 'WEBSITES_CONTAINER_START_TIME_LIMIT'
+          value: '500' } ]
       linuxFxVersion: 'DOCKER|${registry_name}.azurecr.io/${image_name_frontend}:latest'
     }
 
