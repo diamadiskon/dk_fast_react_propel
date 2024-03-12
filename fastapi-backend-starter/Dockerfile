@@ -12,4 +12,4 @@ EXPOSE 3001
 EXPOSE 443
 
 # Run app.py when the container launches
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "3001", "--reload"]
+CMD ["uvicorn", "usr.src.app:app", "--host", "0.0.0.0", "--port", "3001", "--reload"]
