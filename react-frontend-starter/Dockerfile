@@ -8,6 +8,8 @@ RUN npm install
 
 ADD . /src
 
+COPY . .
+
 EXPOSE 3000
 
 EXPOSE 443
