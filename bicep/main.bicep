@@ -142,7 +142,7 @@ module jumpbox 'modules/jumpbox.bicep' = {
   params: {
     name: naming.virtualMachine.name
     location: location
-    availability_zones: [ '1' ]
+    availability_zones: ['1']
     size: 'Standard_D2_v2'
 
     admin_username: jumpbox_admin_username

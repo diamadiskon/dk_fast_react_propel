@@ -80,10 +80,13 @@ param snet_bastion_address_prefix string
 
 /// Variables ///
 
-var tags = union({
+var tags = union(
+  {
     workload: workload
     environment: environment
-  }, rg_tags)
+  },
+  rg_tags
+)
 
 @description('Availability zone numbers e.g. 1,2,3.')
 param availability_zones array = [
@@ -98,10 +101,13 @@ var suffix = '${workload}-${environment}-${location_abbreviation}'
 
 var rg_name = 'rg-${suffix}'
 
-var rg_tags_final = union({
+var rg_tags_final = union(
+  {
     workload: workload
     environment: environment
-  }, tags)
+  },
+  tags
+)
 
 /// Modules & Resources ///
 
