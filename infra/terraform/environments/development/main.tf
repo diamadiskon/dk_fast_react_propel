@@ -60,36 +60,7 @@ data "azurerm_key_vault" "existing" {
 
 #################### Resources ####################
 
-################### Ai Services ###################
-# module "ai" {
-#   source                   = "../../modules/ai"
-#   location                 = var.location
-#   openai_location          = var.openai_location
-#   formrecognizer_location  = var.formrecognizer_location
-#   location_abbreviation_ai = var.location_abbreviation_ai
-#   environment              = var.environment
-#   workload                 = var.workload
-#   location_abbreviation    = var.location_abbreviation
-#   resource_group_name      = data.azurerm_resource_group.rg.name
-#   sku                      = "S0"
-#   vnet_id                  = data.azurerm_virtual_network.vnet.id
-#   subnet_private_id        = data.azurerm_subnet.snet_private.id
-#   search_service_id        = module.search.search_service_id
-#   depends_on               = [module.search]
-# }
 
-# ################### Search Service ###################
-
-# module "search" {
-#   source                = "../../modules/search"
-#   location              = var.location
-#   environment           = var.environment
-#   workload              = var.workload
-#   location_abbreviation = var.location_abbreviation
-#   resource_group_name   = data.azurerm_resource_group.rg.name
-#   sku                   = "standard2"
-#   subnet_private_id     = data.azurerm_subnet.snet_private.id
-# }
 
 # module "host" {
 #   source                     = "../../modules/host"

@@ -3,10 +3,7 @@ run-name: ${{ github.workflow }}
 on:
     push:
         branches:
-            - master
-        paths:
-            - "bicep/**"
-            - ".github/workflows/deploy.yml"
+            - none
     workflow_dispatch:
 
 concurrency:
