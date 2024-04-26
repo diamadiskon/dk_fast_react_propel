@@ -1,5 +1,11 @@
 targetScope = 'resourceGroup'
 
+metadata namme = 'main deployment'
+metadata description = '''
+- item 1
+- item 2
+'''
+
 param location string
 param location_abbreviation string
 param workload string
@@ -144,7 +150,7 @@ module jumpbox 'modules/jumpbox.bicep' = {
     location: location
     availability_zones: ['1']
     size: 'Standard_D2_v2'
-
+    extensionName: 'setup-agent-extension'
     admin_username: jumpbox_admin_username
     admin_password: kv_existing.getSecret(jumpbox_admin_password_secret_name)
     image_publisher: 'Canonical'
@@ -169,15 +175,15 @@ module jumpbox 'modules/jumpbox.bicep' = {
   ]
 }
 
-//Role assignment for jumpbox
-// module contributor_role_assignment 'modules/role_assignment.bicep' = {
-//   scope: resourceGroup(rg_name)
-//   name: 'contributor-role-assignment-${workload}-deployment'
-//   params: {
-//     built_in_role_type: 'Contributor'
-//     principal_id: jumpbox.outputs.vm_identity_principal_id
-//   }
-// }
+// Role assignment for jumpbox
+module contributor_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'contributor-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'Contributor'
+    principal_id: jumpbox.outputs.vm_identity_principal_id
+  }
+}
 
 module bastion 'modules/bastion.bicep' = {
   scope: resourceGroup(rg_name)
@@ -228,7 +234,7 @@ module aks 'modules/aks.bicep' = {
   params: {
     aksName: 'aks-${suffix}'
     location: location
-    version: '1.25.6'
+    version: '1.28.0'
     aksSubnetId: vnet.outputs.snet_aks_id
     availability_zones: availability_zones
     log_workspace_id: la_workspace.outputs.log_workspace_id
@@ -238,50 +244,45 @@ module aks 'modules/aks.bicep' = {
   ]
 }
 
-// Role assignments for AKS
+// public ip for application gateway
 
-// module aks_role_assignment 'modules/aks-role-assignment.bicep' = {//asign network contributor to aks identity
-//   name: 'aks-role-assignment-deployment'
-//   params: {
-//     aksName: aks.outputs.aksName
-//     acrName: registry.outputs.registry_name
-//     aksManagedIdentityPrincipalId: aks.outputs.aksManagedIdentityPrincipalId
-//   }
-//   dependsOn: [
-//     aks
-//     registry
-//   ]
-// }
-
-// application gateway
-
-// module applicationGateway 'modules/agw.bicep' = {
-//   name: 'agw-${workload}-deployment'
-//   params: {
-//     agName: 'agw-${workload}-we'
-//     agSubnetId: vnet.outputs.snet_agw_id
-//     cdfPublicIpName: 'pip-cdf-${workload}-we'
-//     agPrivateIpAddress: '10.1.3.6'
-//     availability_zones: availability_zones
-//     tags: rg_tags
-//     location: location
-//   }
-//   dependsOn: [
-//     vnet
-//   ]
-// }
-
-// DB server
-
-module cosmosdb 'modules/cosmosdb.bicep' = {
-  name: 'cosmosdb-${workload}-deployment'
+module pip_cdf 'modules/pip.bicep' = {
+  name: 'pip-cdf-${workload}-deployment'
   params: {
+    name: 'pip-cdf-${workload}-we'
     location: location
-    tableName: 'health-dashboard-table'
-    primaryRegion: 'westeurope'
-    secondaryRegion: 'northeurope'
+    allocationMethod: 'Static'
   }
 }
+
+// application gateway
+module applicationGateway 'modules/agw.bicep' = {
+  name: 'agw-${workload}-deployment'
+  params: {
+    agName: 'agw-${workload}-we'
+    agSubnetId: vnet.outputs.snet_agw_id
+    cdfPublicIpName: 'pip-cdf-${workload}-we'
+    agPrivateIpAddress: '10.1.3.6'
+    availability_zones: availability_zones
+    tags: rg_tags
+    location: location
+  }
+  dependsOn: [
+    vnet
+  ]
+}
+
+// // DB server
+
+// module cosmosdb 'modules/cosmosdb.bicep' = {
+//   name: 'cosmosdb-${workload}-deployment'
+//   params: {
+//     location: location
+//     tableName: 'health-dashboard-table'
+//     primaryRegion: 'westeurope'
+//     secondaryRegion: 'northeurope'
+//   }
+// }
 
 // Log analytics
 
@@ -293,7 +294,94 @@ module la_workspace 'modules/la_workspace.bicep' = {
   }
 }
 
-/// Variables ///
+/// Role assignments ///
+
+// // Role assignments for AKS
+module aks_role_assignment 'modules/role_assignment.bicep' = {
+  name: 'aks-role-assignment-deployment'
+  params: {
+    built_in_role_type: 'Contributor'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
+module aks_role_assignment_owner 'modules/role_assignment.bicep' = {
+  name: 'aks-role-assignment-owner-deployment'
+  params: {
+    built_in_role_type: 'Owner'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
+module acrpull_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'acrpull-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'AcrPull'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
+module acrpush_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'acrpush-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'AcrPush'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
+module network_contributor_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'network-contributor-role-assignment-${workload}-deployment'
+  params: {
+    built_in_role_type: 'NetworkContributor'
+    principal_id: aks.outputs.aksManagedIdentityPrincipalId
+  }
+  dependsOn: [
+    aks
+  ]
+}
+
+// // Role assignments for Jumpbox
+
+module contributor_jumpbox_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'jump-role-assignment-deployment'
+  params: {
+    built_in_role_type: 'Owner'
+    principal_id: jumpbox.outputs.vm_identity_principal_id
+  }
+  dependsOn: [
+    jumpbox
+  ]
+}
+
+module acrpush_jumpbox_role_assignment 'modules/role_assignment.bicep' = {
+  scope: resourceGroup(rg_name)
+  name: 'acrpush-role-assignment-deployment'
+  params: {
+    built_in_role_type: 'AcrPush'
+    principal_id: jumpbox.outputs.vm_identity_principal_id
+  }
+  dependsOn: [
+    jumpbox
+  ]
+}
+
+// /// Variables ///
 
 var kv_name = '${naming.keyVault.nameUnique}'
 var suffix = '${workload}-${environment}-${location_abbreviation}'

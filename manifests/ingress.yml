@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: app
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+
+
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: health-data.westeurope.cloudapp.azure.com
+    http:
+      paths:
+      - path: /app
+        backend:
+          service:
+            name: frontend-container-service
+            port:
+              number: 3000
+        pathType: Exact
+      - path: /api
+        backend:
+          service:
+            name: backend-container-service
+            port:
+              number: 8080
+        pathType: Exact

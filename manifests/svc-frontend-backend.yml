@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  namespace: app
+  name: frontend-container-service
+
+spec:
+  selector:
+    name: frontend
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+  type: LoadBalancer
+---
+# svc-backend.yml
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: app
+  name: backend-container-service
+spec:
+  selector:
+    name: backend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP

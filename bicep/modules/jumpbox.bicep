@@ -9,6 +9,9 @@ param location string
 @description('Availability Zone for vm redundancy')
 param availability_zones array
 
+@description('Name of VM extension')
+param extensionName string
+
 @description('Size of the vm')
 param size string
 
@@ -136,8 +139,9 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
           assessmentMode: 'ImageDefault'
         }
       }
-    }
+      customData: loadFileAsBase64('../../.github/scripts/setup_jumpbox.tpl')
 
+    }
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true
@@ -146,6 +150,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
   }
 }
 
+<<<<<<< HEAD
 // resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
 //   name: vm.name
 //   location: location
@@ -156,6 +161,37 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-03-01' = {
 //     autoUpgradeMinorVersion: true
 //   }
 // }
+
+// resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+//   parent: vm
+//   name: 'initial-config'
+//   location: location
+//   properties: {
+//     publisher: 'Microsoft.Azure.Extensions'
+//     type: 'CustomScript'
+//     typeHandlerVersion: '2.1'
+//     autoUpgradeMinorVersion: true
+//     protectedSettings: {
+//       fileUris: [
+//         '${scriptUrl}'
+//       ]
+//       commandToExecute: 'sh ${scriptName} ${admin_username} ${AzureDevOpsURL} ${AzureDevOpsPAT} ${AgentPoolName}'
+//     }
+//   }
+// }
+=======
+resource vmextensionDocker 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
+  parent: vm
+  name: 'agentDocker'
+  location: location
+  properties: {
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'DockerExtension'
+    typeHandlerVersion: '1.0'
+    autoUpgradeMinorVersion: true
+  }
+}
+>>>>>>> 1bec2fbe8bb7b448263daa03f816b103cee677bd
 
 // resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
 //   parent: vm

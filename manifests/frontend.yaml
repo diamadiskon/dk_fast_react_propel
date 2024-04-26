@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: app
+  labels:
+    name: frontend
+  name: frontend
+spec:
+  containers:
+  - name: frontend-container
+    image: acrfastreactdevweuh2ww2.azurecr.io/app/frontend:latest
+    ports:
+    - containerPort: 3000
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
